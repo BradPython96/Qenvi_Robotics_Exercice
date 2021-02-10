@@ -1,0 +1,2 @@
+commande
+-DCATKIN_DEVEL_PREFIX=/home/polytech/Qenvi_ws/devel -DCMAKE_INSTALL_PREFIX=/home/polytech/Qenvi_ws/install -G Unix Makefiles

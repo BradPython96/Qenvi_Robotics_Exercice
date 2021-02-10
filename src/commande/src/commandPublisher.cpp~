@@ -1,0 +1,31 @@
+#include "ros/ros.h"
+#include "commande/commandType"
+
+int main(int argc, char** argv)
+{
+    ros::init(argc, argv, "commandPublisher");
+    ros::NodeHandle n;
+    ros::Pulisher pub = n.advertise<std_msgs::commandType>("wheels", 10);
+    ros::Rate loop_rate(10);
+
+    while(ros::ok())
+    {
+        std_msgs::commandType msg;
+        msg.data.clear();
+
+        u = sub.data.u;
+        v = sub.data.v;
+        
+        msg.data.u = 1;
+        msg.data.v = 0;
+        msg.data.rayon = 5;
+        msg.data.demi_ecart = 10;
+        pub.publish(msg);
+
+
+
+    }
+
+
+
+}

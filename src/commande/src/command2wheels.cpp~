@@ -1,0 +1,44 @@
+#include "ros/ros.h"
+#include "commande/wheelType"
+#include "commande/commandType"
+void commandCallback(const std_msgs::wheelType::ConstPtr& msg)
+{
+  
+}
+int main(int argc, char** argv)
+{
+    ros::init(argc, argv, "command2wheels");
+    ros::NodeHandle n;
+    ros::Pulisher pub = n.advertise<std_msgs::wheelType>("wheels", 10);
+    ros::Rate loop_rate(10);
+
+    ros::Subscriber sub = n.subscribe("command", 10, commandCallBack);
+    float r = sub.data.rayon; //Rayon des roues
+    float L = sub.data.demi_ecart; //demi écart entre les roues
+    float u;
+    float v;
+    int saturation = 5; //Saturation en vitesse des roues 
+
+    while(ros::ok())
+    {
+        std_msgs::wheelType msg;
+        msg.data.clear();
+
+        u = sub.data.u;
+        v = sub.data.v;
+        
+        msg.data.w1 = std::min(1/r*u + 1*L/r * v, saturation);
+        msg.data.w2 = std::min(1/r*u - L/r * v, saturation);
+
+        pub.publish(msg);
+
+
+        ros::spinOnce();
+
+        loop_rate.sleep();
+
+    }
+
+
+return 0;
+}
